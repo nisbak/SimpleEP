@@ -11,6 +11,9 @@ dimmerLamp dimmer(outputPin); //initialase port for dimmer for MEGA, Leonardo, U
 //Zero-cross on D2 for MEGA
 int outVal = 0;
 
+int analogPin = A3; // potentiometer wiper (middle terminal) connected to analog pin 3
+                    // outside leads to ground and +5V
+
 void setup() {
   USE_SERIAL.begin(9600);
   dimmer.begin(NORMAL_MODE, OFF); //dimmer initialisation: name.begin(MODE, STATE) 
@@ -20,7 +23,7 @@ void setup() {
 
 void loop() 
 {
-  outVal = map(analogRead(0), 1, 1024, 100, 0); // analogRead(analog_pin), min_analog, max_analog, 100%, 0%);
+  outVal = map(analogRead(analogPin), 1, 1024, 100, 0); // analogRead(analog_pin), min_analog, max_analog, 100%, 0%);
   USE_SERIAL.println(outVal); 
   if (outVal > minPWM) {
     dimmer.setPower(outVal);  
